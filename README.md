@@ -220,7 +220,7 @@ Point `--weights` to your output `best.pt` when running the pipeline.
 - AIS (Automatic Identification System) integration
 - Real-time satellite feed processing
 - Geospatial coordinate mapping
-- DBSCAN-based maritime clustering
+- Dynamic threshold clustering 
 - Streamlit/Web dashboard deployment
 - Temporal anomaly detection
 

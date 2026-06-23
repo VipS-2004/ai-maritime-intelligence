@@ -77,7 +77,7 @@ python main.py --image <path_to_image> --weights <path_to_weights> --grid <grid_
 | Argument | Required | Default | Description |
 |---|---|---|---|
 | `--image` | Yes | — | Path to satellite image (`.jpg`, `.png`, etc.) |
-| `--weights` | No | `runs/detect/train/weights/best.pt` | Path to trained YOLOv8 `.pt` weights |
+| `--weights` | Yes | `runs/detect/train/weights/best.pt` | Path to trained YOLOv8 `.pt` weights |
 | `--grid` | No | `4` | Grid size for zone-based hotspot detection |
 
 ### Example

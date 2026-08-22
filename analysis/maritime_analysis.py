@@ -160,3 +160,62 @@ def density_label(total_ships):
     else:
         return "Dense"
 
+def generate_analysis(results, model):
+    """
+    Generate a complete structured maritime analysis.
+    """
+
+    # 1. Ship counts
+    total, class_breakdown, classes = get_ship_counts(results, model)
+
+    # 2. Congestion
+    congestion = congestion_level(total)
+
+    # 3. Military / civilian classification
+    military, civilian, unknown = classify_military_civilian(
+        classes,
+        model
+    )
+
+    # 4. Risk
+    risk = risk_level(military, total)
+
+    # 5. Clustering
+    clustering_detected, clustering_message = check_unusual_clustering(
+        results
+    )
+
+    # 6. Alert
+    alert = alert_system(
+        military,
+        total,
+        congestion
+    )
+
+    # 7. Density
+    density = density_label(total)
+
+    # Return everything in one structured object
+    return {
+        "total_ships": total,
+        "class_breakdown": class_breakdown,
+
+        "congestion": {
+            "level": congestion,
+            "density": density
+        },
+
+        "military_ships": military,
+        "civilian_ships": civilian,
+        "unknown_ships": unknown,
+
+        "risk_level": risk,
+
+        "clustering": {
+            "detected": clustering_detected,
+            "message": clustering_message
+        },
+
+        "alert": alert
+    }
+

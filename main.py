@@ -12,15 +12,7 @@ Pipeline:
 import argparse
 
 
-from analysis.maritime_analysis import (
-    get_ship_counts,
-    congestion_level,
-    classify_military_civilian,
-    risk_level,
-    check_unusual_clustering,
-    alert_system,
-    density_label
-)
+from analysis.maritime_analysis import generate_analysis
 
 from visualization.visualizer import (
     generate_heatmap,
@@ -63,39 +55,36 @@ def run_pipeline(image_path, weights_path, grid_size=4):
 
     orig_img = results[0].orig_img.copy()
 
-    # Ship Counting 
-    total_ships, named_counts, classes = get_ship_counts(results, model)
+    # Generate structured maritime analysis
+    analysis = generate_analysis(results, model)
+
+    # Ship Counting
     print(f"\n[Ship Count]")
-    print(f"  Total Ships     : {total_ships}")
-    print(f"  Class Breakdown : {named_counts}")
+    print(f"  Total Ships     : {analysis['total_ships']}")
+    print(f"  Class Breakdown : {analysis['class_breakdown']}")
 
-    #  Congestion
-    congestion = congestion_level(total_ships)
+    # Congestion
     print(f"\n[Congestion]")
-    print(f"  Traffic Level   : {congestion}")
+    print(f"  Traffic Level   : {analysis['congestion']['level']}")
+    print(f"  Traffic Density : {analysis['congestion']['density']}")
 
-    density = density_label(total_ships)
-
-    print(f"  Traffic Density : {density}")
-
-    #  Military / Civilian Classification
-    military_count, civilian_count, unknown_count = (
-    classify_military_civilian(classes, model))
+    # Military / Civilian Classification
     print(f"\n[Risk Assessment]")
-    print(f"  Military Ships  : {military_count}")
-    print(f"  Civilian Ships  : {civilian_count}")
-    print(f"  Unknown Ships   : {unknown_count}")
-    print(f"  Risk Level      : {risk_level(military_count, total_ships)}")
+    print(f"  Military Ships  : {analysis['military_ships']}")
+    print(f"  Civilian Ships  : {analysis['civilian_ships']}")
+    print(f"  Unknown Ships   : {analysis['unknown_ships']}")
+    print(f"  Risk Level      : {analysis['risk_level']}")
 
     # Unusual Clustering
-    is_clustered, cluster_msg = check_unusual_clustering(results)
     print(f"\n[Clustering Analysis]")
-    print(f"  {'[ALERT] ' if is_clustered else ''}{cluster_msg}")
+    print(
+        f"  {'[ALERT] ' if analysis['clustering']['detected'] else ''}"
+        f"{analysis['clustering']['message']}"
+    )
 
-    # Alert System 
-    alert = alert_system(military_count, total_ships, congestion)
+    # Alert System
     print(f"\n[System Alert]")
-    print(f"  {alert}")
+    print(f"  {analysis['alert']}")
 
     # Density Heatmap
     print(f"\n[*] Generating density heatmap...")

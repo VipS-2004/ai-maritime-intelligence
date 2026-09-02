@@ -12,6 +12,9 @@ runs/detect/predict*
 # Ignore latest checkpoint
 runs/detect/train/weights/last.pt
 
+# YOLO model weights
+*.pt
+
 # OS-generated junk
 .DS_Store
 Thumbs.db

@@ -13,6 +13,7 @@ import argparse
 
 
 from analysis.maritime_analysis import generate_analysis
+from ai.agent import generate_intelligence_report
 
 from visualization.visualizer import (
     generate_heatmap,
@@ -57,6 +58,20 @@ def run_pipeline(image_path, weights_path, grid_size=4):
 
     # Generate structured maritime analysis
     analysis = generate_analysis(results, model)
+
+    # Generate AI-powered maritime intelligence report
+    print("\n[*] Generating AI intelligence assessment...")
+
+    try:
+        intelligence_report = generate_intelligence_report(analysis)
+
+        print("\n" + "=" * 55)
+        print("   AI Maritime Intelligence Assessment")
+        print("=" * 55)
+        print(intelligence_report)
+
+    except Exception as e:
+        print(f"[AI ERROR] {e}")
 
     # Ship Counting
     print(f"\n[Ship Count]")

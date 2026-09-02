@@ -2,6 +2,7 @@ import json
 import os
 
 from google import genai
+from google.genai import types
 
 
 SYSTEM_PROMPT = """
@@ -67,7 +68,12 @@ RECOMMENDED ACTION
         contents=[
             SYSTEM_PROMPT,
             prompt
-        ]
+        ],
+        config=types.GenerateContentConfig(
+            automatic_function_calling=types.AutomaticFunctionCallingConfig(
+                disable=True
+            )
+        )
     )
 
     return response.text

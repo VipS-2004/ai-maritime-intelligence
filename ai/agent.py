@@ -64,7 +64,7 @@ RECOMMENDED ACTION
 """
 
     response = client.models.generate_content(
-        model="gemini-3.6-flash",
+        model="gemini-3.5-flash",
         contents=[
             SYSTEM_PROMPT,
             prompt

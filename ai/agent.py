@@ -1,8 +1,7 @@
 import json
-from openai import OpenAI
+import os
 
-
-
+from google import genai
 
 
 SYSTEM_PROMPT = """
@@ -34,7 +33,15 @@ def generate_intelligence_report(analysis):
     Generate an AI-powered maritime intelligence assessment
     from structured computer vision analysis.
     """
-    client = OpenAI()
+
+    api_key = os.getenv("GEMINI_API_KEY")
+
+    if not api_key:
+        raise ValueError(
+            "GEMINI_API_KEY environment variable is not configured."
+        )
+
+    client = genai.Client(api_key=api_key)
 
     analysis_data = json.dumps(
         analysis,
@@ -42,10 +49,7 @@ def generate_intelligence_report(analysis):
         default=str
     )
 
-    response = client.responses.create(
-        model="gpt-5.6-luna",
-        instructions=SYSTEM_PROMPT,
-        input=f"""
+    prompt = f"""
 Analyze the following maritime computer vision observations:
 
 {analysis_data}
@@ -57,6 +61,13 @@ RISK EXPLANATION
 AREAS REQUIRING ATTENTION
 RECOMMENDED ACTION
 """
+
+    response = client.models.generate_content(
+        model="gemini-3.6-flash",
+        contents=[
+            SYSTEM_PROMPT,
+            prompt
+        ]
     )
 
-    return response.output_text
+    return response.text

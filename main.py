@@ -133,8 +133,8 @@ if __name__ == "__main__":
         help="Path to input satellite image (e.g. test/images/sample.jpg)"
     )
     parser.add_argument(
-        "--weights", type=str, default="runs/detect/train/weights/best.pt",
-        help="Path to trained YOLOv8 weights (default: runs/detect/train/weights/best.pt)"
+        "--weights", type=str, default="best.pt",
+        help="Path to trained YOLOv8 weights (default: best.pt)"
     )
     parser.add_argument(
         "--grid", type=int, default=4,

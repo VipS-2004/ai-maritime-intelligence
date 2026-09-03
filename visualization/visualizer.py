@@ -38,17 +38,7 @@ def generate_heatmap(results, orig_img):
         0
     )
 
-    plt.figure(figsize=(8, 6))
-
-    plt.imshow(cv2.cvtColor(overlay, cv2.COLOR_BGR2RGB))
-
-    plt.axis("off")
-
-    plt.title("Ship Density Heatmap")
-
-    plt.tight_layout()
-
-    plt.show()
+    
 
     return overlay
 
@@ -140,22 +130,7 @@ def zone_based_analysis(results, orig_img, grid_size=4):
                 2
             )
 
-    plt.figure(figsize=(8, 6))
-
-    plt.imshow(
-        cv2.cvtColor(
-            overlay,
-            cv2.COLOR_BGR2RGB
-        )
-    )
-
-    plt.axis("off")
-
-    plt.title("Zone-Based Traffic Map")
-
-    plt.tight_layout()
-
-    plt.show()
+   
 
     # Find hotspot zones
     max_count = np.max(zone_counts)

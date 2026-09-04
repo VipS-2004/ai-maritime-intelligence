@@ -18,3 +18,5 @@ runs/detect/train/weights/last.pt
 # OS-generated junk
 .DS_Store
 Thumbs.db
+
+temp_image.jpg

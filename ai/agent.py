@@ -78,7 +78,12 @@ def generate_intelligence_report(analysis):
             "GEMINI_API_KEY environment variable is not configured."
         )
 
-    client = genai.Client(api_key=api_key)
+    client = genai.Client(
+        api_key=api_key,
+        http_options=types.HttpOptions(
+            timeout=30000
+        ),
+    )
 
     analysis_data = json.dumps(
         analysis,

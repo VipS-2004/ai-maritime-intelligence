@@ -79,6 +79,15 @@ PIPELINE_STAGES = [
     ("ai", "AI"),
 ]
 
+OPENING_PIPELINE_STAGES = [
+    ("mission", "SOURCE"),
+    ("perception", "DETECT"),
+    ("analysis", "UNDERSTAND"),
+    ("spatial", "LOCATE"),
+    ("risk", "ASSESS"),
+    ("ai", "INTERPRET"),
+]
+
 
 st.markdown(
     """
@@ -91,8 +100,15 @@ st.markdown(
         font-family: 'IBM Plex Sans', sans-serif;
     }
 
-    .main .block-container {
-        max-width: 1120px;
+    .main .block-container,
+    div.block-container,
+    [data-testid="stMainBlockContainer"] {
+        max-width: 1360px;
+        width: 100%;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        padding-left: 2.5rem;
+        padding-right: 2.5rem;
         padding-top: 0.85rem;
         padding-bottom: 2.5rem;
     }
@@ -493,6 +509,635 @@ st.markdown(
         margin-bottom: 0.45rem;
     }
 
+    .stApp:has(.opening-workspace) .pipeline-bar {
+        background: transparent;
+        border: none;
+        padding: 2px 0;
+        margin: 0.25rem 0 1rem 0;
+        flex-wrap: nowrap;
+    }
+
+    .stApp:has(.opening-workspace):has(.opening-empty) .pipeline-bar {
+        margin: 0.2rem 0 1.75rem 0;
+    }
+
+    .stApp:has(.opening-workspace) .pipeline-sep {
+        width: 10px;
+        margin: 0 5px;
+    }
+
+    .stApp:has(.opening-workspace) .opening-intro {
+        margin: 0;
+        max-width: none;
+    }
+
+    .stApp:has(.opening-workspace) .opening-lead-title {
+        color: #eef3f8;
+        font-size: 1.22rem;
+        font-weight: 600;
+        letter-spacing: -0.28px;
+        line-height: 1.3;
+        margin: 0 0 0.7rem 0;
+        max-width: 36rem;
+    }
+
+    .stApp:has(.opening-workspace) .opening-lead-copy {
+        color: #8fa0b3;
+        font-size: 0.84rem;
+        line-height: 1.5;
+        margin: 0 0 1.55rem 0;
+        max-width: 34rem;
+    }
+
+    .stApp:has(.opening-workspace) .opening-steps {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 0;
+        max-width: 46rem;
+        margin: 0;
+    }
+
+    .stApp:has(.opening-workspace) .opening-step {
+        padding-right: 1.4rem;
+    }
+
+    .stApp:has(.opening-workspace) .opening-step + .opening-step {
+        padding-left: 1.4rem;
+        border-left: 1px solid #1a2a3d;
+    }
+
+    .stApp:has(.opening-workspace) .opening-step-kicker {
+        font-family: 'IBM Plex Mono', monospace;
+        font-size: 0.64rem;
+        font-weight: 500;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: #7ec8e3;
+        margin-bottom: 0.32rem;
+    }
+
+    .stApp:has(.opening-workspace) .opening-step-text {
+        color: #8fb9c9;
+        font-size: 0.8rem;
+        line-height: 1.4;
+        margin: 0;
+        max-width: 16.5rem;
+    }
+
+    .stApp:has(.has-source-image) .opening-intro,
+    .stApp:has(.has-source-image) [data-testid="stElementContainer"]:has(.opening-intro) {
+        display: none !important;
+        height: 0 !important;
+        min-height: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        overflow: hidden !important;
+    }
+
+    .stApp:has(.opening-workspace) [data-testid="stFileUploader"] {
+        background: transparent;
+        border: none;
+        padding: 0;
+        max-width: none;
+        width: 100%;
+        margin: 0;
+    }
+
+    .stApp:has(.opening-workspace) [data-testid="stFileUploaderDropzone"] {
+        min-height: 0 !important;
+        height: auto !important;
+        width: 100%;
+        padding: 0.75rem 1rem !important;
+    }
+
+    .stApp:has(.has-source-image) [data-testid="stFileUploaderDropzone"],
+    .stApp:has(.has-source-image) [data-testid="stFileUploaderFile"] {
+        display: none !important;
+    }
+
+    .stApp:has(.has-source-image) [data-testid="stFileUploader"] {
+        height: 0 !important;
+        max-height: 0 !important;
+        min-height: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        overflow: hidden !important;
+        border: none !important;
+        max-width: none;
+    }
+
+    .stApp:has(.has-source-image) [data-testid="stElementContainer"]:has([data-testid="stFileUploader"]) {
+        display: none !important;
+        min-height: 0 !important;
+        height: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        overflow: hidden !important;
+    }
+
+    .has-source-image {
+        display: none;
+    }
+
+    .stApp:has(.opening-workspace) [data-testid="stHorizontalBlock"] {
+        align-items: start !important;
+        gap: 1.5rem !important;
+    }
+
+    .stApp:has(.opening-workspace) [data-testid="stImage"] {
+        width: 100%;
+        max-width: 100%;
+        overflow: visible;
+        background: transparent;
+        border: none;
+    }
+
+    .stApp:has(.opening-workspace) [data-testid="stImage"] img {
+        display: block;
+        width: 100% !important;
+        max-width: 100% !important;
+        height: auto !important;
+        max-height: min(68vh, 720px) !important;
+        object-fit: contain !important;
+        object-position: left center;
+    }
+
+    .stApp:has(.opening-workspace):has(.has-source-image) .main .block-container,
+    .stApp:has(.opening-workspace):has(.has-source-image) div.block-container,
+    .stApp:has(.opening-workspace):has(.has-source-image) [data-testid="stMainBlockContainer"] {
+        padding-top: 0.55rem;
+        padding-bottom: 1.25rem;
+    }
+
+    .stApp:has(.opening-workspace):has(.has-source-image) div[data-testid="stVerticalBlock"] > div {
+        gap: 0.28rem;
+    }
+
+    .stApp:has(.has-source-image) .pipeline-bar {
+        margin: 0.15rem 0 0.55rem 0;
+    }
+
+    .stApp:has(.has-source-image) [data-testid="stHorizontalBlock"] {
+        align-items: start !important;
+        gap: 1.15rem !important;
+        max-width: 52rem;
+    }
+
+    .stApp:has(.has-source-image) [data-testid="stHorizontalBlock"] > div:last-child {
+        border-left: 1px solid #1a2a3d;
+        padding-left: 1.1rem;
+    }
+
+    .stApp:has(.has-source-image) [data-testid="stImage"] {
+        width: auto;
+        max-width: 100%;
+    }
+
+    .stApp:has(.has-source-image) [data-testid="stImage"] img {
+        display: block;
+        width: auto !important;
+        max-width: 100% !important;
+        height: auto !important;
+        max-height: min(44vh, 400px) !important;
+        object-fit: contain !important;
+        object-position: left top;
+    }
+
+    .stApp:has(.has-source-image) .opening-ready-note {
+        margin: 0.2rem 0 0.85rem 0;
+    }
+
+    .opening-ready-note {
+        color: #8fa0b3;
+        font-size: 0.82rem;
+        margin: 0 0 0.75rem 0;
+        line-height: 1.35;
+    }
+
+    .opening-empty {
+        display: none;
+    }
+
+    .stApp:has(.opening-workspace):has(.opening-empty) .main .block-container,
+    .stApp:has(.opening-workspace):has(.opening-empty) div.block-container,
+    .stApp:has(.opening-workspace):has(.opening-empty) [data-testid="stMainBlockContainer"] {
+        padding-top: 0.7rem;
+        padding-bottom: min(28vh, 12rem);
+    }
+
+    .stApp:has(.opening-workspace):has(.opening-empty) div[data-testid="stVerticalBlock"] > div {
+        gap: 0.32rem;
+    }
+
+    .stApp:has(.opening-workspace):has(.opening-empty) .app-kicker {
+        margin-bottom: 0.12rem;
+    }
+
+    .stApp:has(.opening-workspace):has(.opening-empty) h1 {
+        margin-bottom: 0.05rem !important;
+    }
+
+    .stApp:has(.opening-workspace):has(.opening-empty) .opening-lead-title {
+        margin: 0 0 0.85rem 0;
+    }
+
+    .stApp:has(.opening-workspace):has(.opening-empty) .opening-lead-copy {
+        margin: 0 0 1.9rem 0;
+    }
+
+    .stApp:has(.opening-workspace):has(.opening-empty) .opening-step-kicker {
+        margin-bottom: 0.42rem;
+    }
+
+    .stApp:has(.opening-workspace):has(.opening-empty) [data-testid="stFileUploader"] {
+        margin-top: 1.85rem;
+        padding-top: 1.35rem;
+        padding-bottom: 1.35rem;
+        border-top: 1px solid #1a2a3d;
+        border-bottom: 1px solid #152232;
+    }
+
+    .stApp:has(.opening-workspace):has(.opening-empty) [data-testid="stFileUploaderDropzone"] {
+        border: 1px solid #1a2a3d;
+        background: #0b1420;
+        border-radius: 5px;
+        min-height: 4.6rem !important;
+        padding: 1.15rem 1.15rem !important;
+    }
+
+    .stApp:has(.opening-workspace):has(.opening-empty) [data-testid="stFileUploaderDropzoneInstructions"] {
+        color: #8fa0b3;
+    }
+
+    .stApp:has(.opening-workspace):has(.opening-empty) [data-testid="stFileUploaderDropzone"] small {
+        color: #6d8094;
+    }
+
+    .report-workspace {
+        display: none;
+    }
+
+    .stApp:has(.report-workspace) .main .block-container,
+    .stApp:has(.report-workspace) div.block-container,
+    .stApp:has(.report-workspace) [data-testid="stMainBlockContainer"] {
+        padding-top: 3.25rem;
+    }
+
+    .stApp:has(.report-workspace) .report-kicker {
+        color: #eef3f8;
+        font-family: 'IBM Plex Sans', sans-serif;
+        font-size: 1.18rem;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        margin: 0;
+        line-height: 1.2;
+    }
+
+    .stApp:has(.report-workspace) [data-testid="stHorizontalBlock"]:has(.report-kicker) {
+        align-items: center !important;
+        gap: 1rem !important;
+    }
+
+    .stApp:has(.report-workspace) .report-breadcrumb {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 0.45rem 0.55rem;
+        font-family: 'IBM Plex Mono', monospace;
+        font-size: 0.64rem;
+        font-weight: 500;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        margin: 0.7rem 0 0.1rem 0;
+    }
+
+    .stApp:has(.report-workspace) .report-crumb {
+        color: #7ec8e3;
+    }
+
+    .stApp:has(.report-workspace) .report-crumb-sep {
+        color: #2a6f8f;
+        font-size: 0.7rem;
+        letter-spacing: 0;
+    }
+
+    .stApp:has(.report-workspace) .report-primary-stat {
+        margin: 0.15rem 0 0.75rem 0;
+    }
+
+    .stApp:has(.report-workspace) .report-primary-value {
+        font-family: 'IBM Plex Mono', monospace;
+        font-size: 2.05rem;
+        font-weight: 500;
+        color: #eef3f8;
+        letter-spacing: -0.04em;
+        line-height: 1;
+        margin-bottom: 0.28rem;
+    }
+
+    .stApp:has(.report-workspace) .report-primary-label {
+        color: #7ec8e3;
+        font-size: 0.68rem;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+    }
+
+    .stApp:has(.report-workspace) .report-supporting {
+        margin-top: 0.15rem;
+    }
+
+    .stApp:has(.report-workspace) .report-supporting .config-line,
+    .stApp:has(.report-workspace) .report-supporting .class-row {
+        opacity: 0.88;
+    }
+
+    .stApp:has(.report-workspace) .report-takeaway {
+        margin: 0.1rem 0 0.85rem 0;
+    }
+
+    .stApp:has(.report-workspace) .report-takeaway-main {
+        font-size: 1.28rem;
+        font-weight: 600;
+        color: #eef3f8;
+        letter-spacing: -0.2px;
+        line-height: 1.25;
+        margin-bottom: 0.35rem;
+    }
+
+    .stApp:has(.report-workspace) .report-takeaway-sub {
+        font-family: 'IBM Plex Mono', monospace;
+        font-size: 0.86rem;
+        color: #9eb8cc;
+        letter-spacing: 0.02em;
+        line-height: 1.45;
+    }
+
+    .stApp:has(.report-workspace) .report-spatial-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.45rem 1.35rem;
+        margin: 1.05rem 0 0.55rem 0;
+    }
+
+    .stApp:has(.report-workspace) .report-spatial-item {
+        min-width: 0;
+    }
+
+    .stApp:has(.report-workspace) .report-spatial-label {
+        color: #6d8094;
+        font-size: 0.6rem;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        margin-bottom: 0.12rem;
+    }
+
+    .stApp:has(.report-workspace) .report-spatial-value {
+        font-family: 'IBM Plex Mono', monospace;
+        font-size: 0.86rem;
+        color: #c5d0dc;
+    }
+
+    .stApp:has(.report-workspace) .report-spatial-note {
+        color: #6d8094;
+        font-size: 0.72rem;
+        margin: 0.45rem 0 0 0;
+        line-height: 1.4;
+    }
+
+    .stApp:has(.report-workspace) .report-comp {
+        margin: 0.15rem 0 0.35rem 0;
+    }
+
+    .stApp:has(.report-workspace) .report-comp-heading {
+        color: #7d8fa3;
+        font-size: 0.6rem;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        margin: 0 0 0.45rem 0;
+    }
+
+    .stApp:has(.report-workspace) .report-comp-bar {
+        display: flex;
+        width: 100%;
+        height: 13px;
+        overflow: hidden;
+        border-radius: 3px;
+        background: #0c1522;
+        border: 1px solid #1a2a3d;
+        margin: 0 0 0.7rem 0;
+    }
+
+    .stApp:has(.report-workspace) .report-comp-seg {
+        min-width: 0;
+        height: 100%;
+    }
+
+    .stApp:has(.report-workspace) .report-comp-seg.military {
+        background: #8b4d4d;
+    }
+
+    .stApp:has(.report-workspace) .report-comp-seg.civilian {
+        background: #3d7a8f;
+    }
+
+    .stApp:has(.report-workspace) .report-comp-seg.unknown {
+        background: #4d5966;
+    }
+
+    .stApp:has(.report-workspace) .report-comp-legend {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.55rem 1.5rem;
+        margin: 0 0 1rem 0;
+    }
+
+    .stApp:has(.report-workspace) .report-comp-item {
+        display: flex;
+        align-items: baseline;
+        gap: 0.45rem;
+        font-family: 'IBM Plex Mono', monospace;
+        font-size: 0.72rem;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: #8fa0b3;
+    }
+
+    .stApp:has(.report-workspace) .report-comp-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 1px;
+        flex-shrink: 0;
+        position: relative;
+        top: -1px;
+    }
+
+    .stApp:has(.report-workspace) .report-comp-dot.military {
+        background: #8b4d4d;
+    }
+
+    .stApp:has(.report-workspace) .report-comp-dot.civilian {
+        background: #3d7a8f;
+    }
+
+    .stApp:has(.report-workspace) .report-comp-dot.unknown {
+        background: #4d5966;
+    }
+
+    .stApp:has(.report-workspace) .report-comp-count {
+        color: #eef3f8;
+        font-size: 0.86rem;
+    }
+
+    .stApp:has(.report-workspace) .report-traffic-line {
+        font-family: 'IBM Plex Mono', monospace;
+        font-size: 0.82rem;
+        color: #9eb8cc;
+        letter-spacing: 0.02em;
+        margin: 0;
+    }
+
+    .stApp:has(.report-workspace) [data-testid="stHorizontalBlock"]:has(.report-figure-detect) [data-testid="stImage"],
+    .stApp:has(.report-workspace) [data-testid="stHorizontalBlock"]:has(.report-figure-spatial) [data-testid="stImage"] {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+    }
+
+    .stApp:has(.report-workspace) [data-testid="stHorizontalBlock"]:has(.report-figure-detect) [data-testid="stImage"] img {
+        display: block;
+        width: auto !important;
+        max-width: 100% !important;
+        height: auto !important;
+        max-height: min(46vh, 420px) !important;
+        object-fit: contain !important;
+        object-position: center center;
+    }
+
+    .stApp:has(.report-workspace) [data-testid="stHorizontalBlock"]:has(.report-figure-spatial) [data-testid="stImage"] img {
+        display: block;
+        width: auto !important;
+        max-width: 100% !important;
+        height: auto !important;
+        max-height: min(38vh, 340px) !important;
+        object-fit: contain !important;
+        object-position: center center;
+        margin: 0 auto;
+    }
+
+    .stApp:has(.report-workspace) .report-ai-lead {
+        color: #eef3f8;
+        font-size: 1.02rem;
+        font-weight: 500;
+        letter-spacing: -0.1px;
+        line-height: 1.35;
+        margin: 0.1rem 0 0.85rem 0;
+    }
+
+    .stApp:has(.report-workspace) .ai-meta {
+        color: #6d8094;
+        font-size: 0.72rem;
+        margin-bottom: 0.7rem;
+    }
+
+    .stApp:has(.report-workspace) .report-risk-banner {
+        width: 100%;
+        box-sizing: border-box;
+        background: #0c1522;
+        border: 1px solid #1a2a3d;
+        border-radius: 5px;
+        padding: 1rem 1.15rem 0.95rem 1.15rem;
+        margin: 0.15rem 0 0.2rem 0;
+    }
+
+    .stApp:has(.report-workspace) .report-risk-banner.low {
+        border-color: #1f4a3a;
+        background: #0c1a16;
+    }
+
+    .stApp:has(.report-workspace) .report-risk-banner.medium {
+        border-color: #6b5420;
+        background: #1a160c;
+    }
+
+    .stApp:has(.report-workspace) .report-risk-banner.high {
+        border-color: #6b3030;
+        background: #1a0f0f;
+    }
+
+    .stApp:has(.report-workspace) .report-risk-label {
+        color: #7d8fa3;
+        font-size: 0.6rem;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        margin-bottom: 0.2rem;
+    }
+
+    .stApp:has(.report-workspace) .report-risk-level {
+        font-family: 'IBM Plex Mono', monospace;
+        font-size: 1.9rem;
+        font-weight: 500;
+        letter-spacing: 0.08em;
+        line-height: 1.1;
+        margin: 0 0 0.75rem 0;
+    }
+
+    .stApp:has(.report-workspace) .report-risk-banner.low .report-risk-level {
+        color: #7dba9a;
+    }
+
+    .stApp:has(.report-workspace) .report-risk-banner.medium .report-risk-level {
+        color: #d4b56a;
+    }
+
+    .stApp:has(.report-workspace) .report-risk-banner.high .report-risk-level {
+        color: #d98989;
+    }
+
+    .stApp:has(.report-workspace) .report-risk-signals {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.85rem 1.5rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .stApp:has(.report-workspace) .report-risk-signal {
+        min-width: 0;
+        padding-left: 0.7rem;
+        border-left: 1px solid #1a2a3d;
+    }
+
+    .stApp:has(.report-workspace) .report-risk-signal.ok {
+        border-left-color: #1f4a3a;
+    }
+
+    .stApp:has(.report-workspace) .report-risk-signal.warn {
+        border-left-color: #6b5420;
+    }
+
+    .stApp:has(.report-workspace) .report-risk-signal.alert {
+        border-left-color: #6b3030;
+    }
+
+    .stApp:has(.report-workspace) .report-risk-signal-text {
+        color: #d8e0ea;
+        font-size: 0.92rem;
+        line-height: 1.4;
+    }
+
+    .stApp:has(.report-workspace) .report-risk-meta {
+        color: #6d8094;
+        font-size: 0.72rem;
+        line-height: 1.35;
+        margin: 0;
+        padding-top: 0.65rem;
+        border-top: 1px solid #152232;
+    }
+
     </style>
     """,
     unsafe_allow_html=True,
@@ -514,8 +1159,9 @@ def reset_analysis():
     st.session_state.pipeline_stage = "mission"
 
 
-def render_pipeline_indicator(current_stage="mission", completed=False):
-    stage_ids = [stage_id for stage_id, _ in PIPELINE_STAGES]
+def render_pipeline_indicator(current_stage="mission", completed=False, stages=None):
+    stage_list = stages if stages is not None else PIPELINE_STAGES
+    stage_ids = [stage_id for stage_id, _ in stage_list]
     current_index = (
         stage_ids.index(current_stage)
         if current_stage in stage_ids
@@ -526,7 +1172,7 @@ def render_pipeline_indicator(current_stage="mission", completed=False):
         '<div class="pipeline-bar">',
     ]
 
-    for index, (stage_id, label) in enumerate(PIPELINE_STAGES):
+    for index, (stage_id, label) in enumerate(stage_list):
         if completed:
             state = "done"
         elif index < current_index:
@@ -543,7 +1189,7 @@ def render_pipeline_indicator(current_stage="mission", completed=False):
         )
         parts.append("</div>")
 
-        if index < len(PIPELINE_STAGES) - 1:
+        if index < len(stage_list) - 1:
             parts.append('<div class="pipeline-sep"></div>')
 
     parts.append("</div>")
@@ -747,7 +1393,7 @@ def parse_intelligence_report(report):
 
 def render_ai_content(text):
     if not text:
-        st.caption("No assessment available.")
+        st.caption("No assessment available")
         return
 
     for line in text.splitlines():
@@ -833,193 +1479,143 @@ def build_intelligence_context(analysis, zone_counts, hotspots):
     return context
 
 
-header_left, header_right = st.columns(
-    [5, 1],
-    gap="large",
-)
+if not st.session_state.analysis_complete:
 
-with header_left:
+    st.markdown(
+        '<div class="opening-workspace"></div>',
+        unsafe_allow_html=True,
+    )
 
     st.markdown(
         '<div class="app-kicker">SATELLITE MARITIME INTELLIGENCE</div>',
         unsafe_allow_html=True,
     )
 
-    st.title("Maritime Intelligence Pipeline")
+    st.title("Maritime Intelligence")
 
-    st.markdown(
-        '<p class="app-subtitle">'
-        "Satellite imagery processed through perception, maritime analysis, "
-        "spatial intelligence, risk assessment, and AI synthesis."
-        "</p>",
-        unsafe_allow_html=True,
-    )
+    pipeline_slot = st.empty()
 
-with header_right:
+    with pipeline_slot.container():
 
-    if st.session_state.analysis_complete:
-        status_label = "COMPLETE"
-        status_class = "status-chip status-chip-done"
-    else:
-        status_label = "READY"
-        status_class = "status-chip status-chip-ready"
-
-    st.write("")
-    st.markdown(
-        f'<div class="{status_class}">{status_label}</div>',
-        unsafe_allow_html=True,
-    )
-
-
-st.write("")
-
-
-if not st.session_state.analysis_complete:
-
-    render_pipeline_indicator(
-        current_stage=st.session_state.pipeline_stage,
-        completed=False,
-    )
-
-    st.markdown(
-        '<div class="stage-kicker">MISSION INPUT</div>',
-        unsafe_allow_html=True,
-    )
-
-    st.header("Ingest Satellite Imagery")
-
-    st.markdown(
-        '<p class="stage-question">'
-        "Provide a single satellite image. The system will run a linear "
-        "intelligence pipeline from vessel perception through AI assessment."
-        "</p>",
-        unsafe_allow_html=True,
-    )
-
-    with st.container(border=True):
-
-        upload_col, produce_col = st.columns(
-            [1.7, 1],
-            gap="large",
+        render_pipeline_indicator(
+            current_stage="mission",
+            completed=False,
+            stages=OPENING_PIPELINE_STAGES,
         )
 
-        with upload_col:
+    st.markdown(
+        '<div class="opening-intro">'
+        '<p class="opening-lead-title">'
+        "Turn satellite imagery into a structured maritime intelligence report"
+        "</p>"
+        '<p class="opening-lead-copy">'
+        "Upload a satellite image and the system will detect and classify ships, "
+        "analyze vessel composition and traffic, identify spatial concentration, "
+        "assess risk signals, and optionally generate an AI-assisted intelligence "
+        "assessment"
+        "</p>"
+        '<div class="opening-steps">'
+        '<div class="opening-step">'
+        '<div class="opening-step-kicker">01 — DETECT</div>'
+        '<p class="opening-step-text">'
+        "Ships &amp; boats detected from satellite imagery"
+        "</p>"
+        "</div>"
+        '<div class="opening-step">'
+        '<div class="opening-step-kicker">02 — ANALYZE</div>'
+        '<p class="opening-step-text">'
+        "Vessel composition, traffic, spatial concentration &amp; risk"
+        "</p>"
+        "</div>"
+        '<div class="opening-step">'
+        '<div class="opening-step-kicker">03 — INTERPRET</div>'
+        '<p class="opening-step-text">'
+        "AI-assisted synthesis of the complete intelligence picture"
+        "</p>"
+        "</div>"
+        "</div>"
+        "</div>",
+        unsafe_allow_html=True,
+    )
 
-            st.caption("SOURCE IMAGE")
-
-            uploaded_file = st.file_uploader(
-                "Upload JPG or PNG satellite imagery",
-                type=["jpg", "jpeg", "png"],
-                label_visibility="collapsed",
-            )
-
-        with produce_col:
-
-            st.caption("PIPELINE OUTPUT")
-
-            st.markdown(
-                """
-                <ul class="produce-list">
-                    <li>Vessel detections and classifications</li>
-                    <li>Maritime composition and traffic state</li>
-                    <li>Spatial concentration and hotspots</li>
-                    <li>Risk signals requiring attention</li>
-                    <li>AI analyst synthesis</li>
-                </ul>
-                """,
-                unsafe_allow_html=True,
-            )
-
-    st.write("")
+    uploaded_file = st.file_uploader(
+        "Upload a satellite image to begin",
+        type=["jpg", "jpeg", "png"],
+        label_visibility="collapsed",
+    )
 
     if uploaded_file is None:
 
-        with st.container(border=True):
-
-            st.caption("AWAITING IMAGE")
-
-            st.write(
-                "Upload satellite imagery to configure and run the pipeline."
-            )
+        st.markdown(
+            '<div class="opening-empty"></div>',
+            unsafe_allow_html=True,
+        )
 
         st.stop()
 
-    uploaded_bytes = uploaded_file.getvalue()
+    st.markdown(
+        '<div class="has-source-image"></div>',
+        unsafe_allow_html=True,
+    )
 
-    file_signature = hashlib.md5(
-        uploaded_bytes
-    ).hexdigest()
+    same_stored_file = (
+        st.session_state.uploaded_name == uploaded_file.name
+        and st.session_state.uploaded_bytes is not None
+        and len(st.session_state.uploaded_bytes) == uploaded_file.size
+    )
 
-    if st.session_state.file_signature != file_signature:
+    if same_stored_file:
 
-        reset_analysis()
+        uploaded_bytes = st.session_state.uploaded_bytes
 
-        st.session_state.file_signature = file_signature
-        st.session_state.uploaded_name = uploaded_file.name
-        st.session_state.uploaded_bytes = uploaded_bytes
-        st.session_state.pipeline_stage = "mission"
+    else:
 
-    preview_col, config_col = st.columns(
-        [1.7, 1],
+        uploaded_bytes = uploaded_file.getvalue()
+
+        file_signature = hashlib.md5(
+            uploaded_bytes
+        ).hexdigest()
+
+        if st.session_state.file_signature != file_signature:
+
+            reset_analysis()
+
+            st.session_state.file_signature = file_signature
+            st.session_state.uploaded_name = uploaded_file.name
+            st.session_state.uploaded_bytes = uploaded_bytes
+            st.session_state.pipeline_stage = "mission"
+
+    preview_col, action_col = st.columns(
+        [2.4, 1],
         gap="medium",
     )
 
     with preview_col:
 
-        with st.container(border=True):
+        st.caption("SOURCE IMAGE")
 
-            st.caption("IMAGE PREVIEW")
+        st.image(
+            uploaded_file,
+            use_container_width=True,
+        )
 
-            st.image(
-                uploaded_bytes,
-                width=PREVIEW_IMAGE_WIDTH,
-            )
+    with action_col:
 
-            st.markdown(
-                f'<div class="mono-value">{uploaded_file.name}</div>',
-                unsafe_allow_html=True,
-            )
+        st.caption("ANALYSIS ACTION")
 
-    with config_col:
+        st.markdown(
+            '<p class="opening-ready-note">Source image ready</p>',
+            unsafe_allow_html=True,
+        )
 
-        with st.container(border=True):
-
-            st.caption("ANALYST CONTROLS")
-
-            st.markdown(
-                """
-                <div class="config-line">
-                    <span class="config-key">Detector</span>
-                    <span class="config-val">YOLOv8m</span>
-                </div>
-                <div class="config-line">
-                    <span class="config-key">Weights</span>
-                    <span class="config-val">best.pt</span>
-                </div>
-                <div class="config-line">
-                    <span class="config-key">Classes</span>
-                    <span class="config-val">25 vessel types</span>
-                </div>
-                <div class="config-line">
-                    <span class="config-key">Zone grid</span>
-                    <span class="config-val">4 × 4</span>
-                </div>
-                """,
-                unsafe_allow_html=True,
-            )
-
-            st.write("")
-
-            analyze_button = st.button(
-                "RUN ANALYSIS",
-                type="primary",
-                use_container_width=True,
-            )
+        analyze_button = st.button(
+            "RUN ANALYSIS",
+            type="primary",
+            use_container_width=True,
+        )
 
     if not analyze_button:
         st.stop()
-
-    pipeline_slot = st.empty()
 
     def show_pipeline_stage(stage):
         st.session_state.pipeline_stage = stage
@@ -1027,6 +1623,7 @@ if not st.session_state.analysis_complete:
             render_pipeline_indicator(
                 current_stage=stage,
                 completed=False,
+                stages=OPENING_PIPELINE_STAGES,
             )
 
     try:
@@ -1101,6 +1698,12 @@ if not st.session_state.analysis_complete:
         st.stop()
 
 
+st.markdown(
+    '<div class="report-workspace"></div>',
+    unsafe_allow_html=True,
+)
+
+
 analysis = st.session_state.analysis
 results = st.session_state.results
 heatmap = st.session_state.heatmap
@@ -1109,28 +1712,19 @@ hotspots = st.session_state.hotspots
 zone_overlay = st.session_state.zone_overlay
 
 
-result_header_left, result_header_right = st.columns(
-    [4, 1],
-    gap="large",
+header_left, header_right = st.columns(
+    [5, 1],
+    gap="medium",
 )
 
-with result_header_left:
+with header_left:
 
     st.markdown(
-        '<div class="stage-kicker">INTELLIGENCE REPORT</div>',
+        '<div class="report-kicker">INTELLIGENCE REPORT</div>',
         unsafe_allow_html=True,
     )
 
-    st.header("Analysis Complete")
-
-    source_name = st.session_state.uploaded_name or "—"
-
-    st.markdown(
-        f'<div class="mono-value">SOURCE  ·  {source_name}</div>',
-        unsafe_allow_html=True,
-    )
-
-with result_header_right:
+with header_right:
 
     if st.button(
         "NEW ANALYSIS",
@@ -1141,7 +1735,20 @@ with result_header_right:
         st.rerun()
 
 
-render_pipeline_indicator(completed=True)
+st.markdown(
+    '<div class="report-breadcrumb">'
+    '<span class="report-crumb">PERCEPTION</span>'
+    '<span class="report-crumb-sep">·</span>'
+    '<span class="report-crumb">ANALYSIS</span>'
+    '<span class="report-crumb-sep">·</span>'
+    '<span class="report-crumb">SPATIAL</span>'
+    '<span class="report-crumb-sep">·</span>'
+    '<span class="report-crumb">RISK</span>'
+    '<span class="report-crumb-sep">·</span>'
+    '<span class="report-crumb">AI</span>'
+    "</div>",
+    unsafe_allow_html=True,
+)
 
 
 st.divider()
@@ -1154,13 +1761,6 @@ st.markdown(
 
 st.header("Vessel Observation")
 
-st.markdown(
-    '<p class="stage-question">'
-    "What did the computer vision system observe?"
-    "</p>",
-    unsafe_allow_html=True,
-)
-
 
 detection_col1, detection_col2 = st.columns(
     [1.45, 1],
@@ -1170,88 +1770,82 @@ detection_col1, detection_col2 = st.columns(
 
 with detection_col1:
 
-    with st.container(border=True):
+    st.markdown(
+        '<div class="report-figure-detect"></div>',
+        unsafe_allow_html=True,
+    )
 
-        st.caption("ANNOTATED DETECTION")
+    st.caption("ANNOTATED DETECTION")
 
-        detection_image = draw_detection_overlay(results)
+    detection_image = draw_detection_overlay(results)
 
-        st.image(
-            detection_image,
-            width=PERCEPTION_IMAGE_WIDTH,
-        )
-
-        st.markdown(
-            '<p class="obs-note">'
-            "Computer vision observation — compact bounding boxes and "
-            "class/confidence labels from the maritime vessel detector."
-            "</p>",
-            unsafe_allow_html=True,
-        )
+    st.image(
+        detection_image,
+        use_container_width=True,
+    )
 
 
 with detection_col2:
 
-    with st.container(border=True):
+    st.markdown(
+        f'<div class="report-primary-stat">'
+        f'<div class="report-primary-value">{analysis["total_ships"]}</div>'
+        f'<div class="report-primary-label">VESSELS DETECTED</div>'
+        f"</div>",
+        unsafe_allow_html=True,
+    )
 
-        st.caption("DETECTION SUMMARY")
+    if len(results[0].boxes) > 0:
 
-        st.metric(
-            "VESSELS DETECTED",
-            analysis["total_ships"],
+        confidences = results[0].boxes.conf.cpu().numpy()
+
+        average_confidence = float(confidences.mean()) * 100
+        min_confidence = float(confidences.min()) * 100
+        max_confidence = float(confidences.max()) * 100
+
+        st.markdown(
+            '<div class="report-supporting">'
+            '<div class="config-line">'
+            '<span class="config-key">Confidence average</span>'
+            f'<span class="config-val">{average_confidence:.1f}%</span>'
+            "</div>"
+            '<div class="config-line">'
+            '<span class="config-key">Confidence range</span>'
+            f'<span class="config-val">'
+            f"{min_confidence:.1f}% – {max_confidence:.1f}%"
+            "</span>"
+            "</div>"
+            "</div>",
+            unsafe_allow_html=True,
         )
 
-        if len(results[0].boxes) > 0:
+    else:
 
-            confidences = results[0].boxes.conf.cpu().numpy()
+        st.caption("No vessels detected in this image")
 
-            average_confidence = float(confidences.mean()) * 100
-            min_confidence = float(confidences.min()) * 100
-            max_confidence = float(confidences.max()) * 100
+    if analysis["class_breakdown"]:
 
-            st.caption("CONFIDENCE")
+        class_rows = []
 
-            st.markdown(
-                f'<div class="config-line">'
-                f'<span class="config-key">Average</span>'
-                f'<span class="config-val">{average_confidence:.1f}%</span>'
-                f"</div>"
-                f'<div class="config-line">'
-                f'<span class="config-key">Range</span>'
-                f'<span class="config-val">'
-                f"{min_confidence:.1f}% – {max_confidence:.1f}%"
-                f"</span>"
-                f"</div>",
-                unsafe_allow_html=True,
+        for vessel_type, count in analysis["class_breakdown"].items():
+
+            class_rows.append(
+                '<div class="class-row">'
+                f'<span class="class-name">{vessel_type}</span>'
+                f'<span class="class-count">{count}</span>'
+                "</div>"
             )
 
-        else:
+        st.markdown(
+            '<div class="report-supporting">'
+            + "".join(class_rows)
+            + "</div>",
+            unsafe_allow_html=True,
+        )
 
-            st.caption("No vessels detected in this image.")
+    else:
 
-        st.caption("CLASSIFIED TYPES")
-
-        if analysis["class_breakdown"]:
-
-            class_rows = []
-
-            for vessel_type, count in analysis["class_breakdown"].items():
-
-                class_rows.append(
-                    '<div class="class-row">'
-                    f'<span class="class-name">{vessel_type}</span>'
-                    f'<span class="class-count">{count}</span>'
-                    "</div>"
-                )
-
-            st.markdown(
-                "".join(class_rows),
-                unsafe_allow_html=True,
-            )
-
-        else:
-
-            st.write("No classifications available.")
+        st.write("No classifications available")
 
 
 st.divider()
@@ -1264,106 +1858,65 @@ st.markdown(
 
 st.header("Composition & Traffic")
 
+military_count = analysis["military_ships"]
+civilian_count = analysis["civilian_ships"]
+unknown_count = analysis["unknown_ships"]
+composition_total = military_count + civilian_count + unknown_count
+
+if composition_total > 0:
+    military_flex = military_count
+    civilian_flex = civilian_count
+    unknown_flex = unknown_count
+else:
+    military_flex = 0
+    civilian_flex = 0
+    unknown_flex = 0
+
+military_seg = (
+    f'<div class="report-comp-seg military" style="flex:{military_flex};min-width:6px"></div>'
+    if military_count > 0
+    else ""
+)
+civilian_seg = (
+    f'<div class="report-comp-seg civilian" style="flex:{civilian_flex};min-width:6px"></div>'
+    if civilian_count > 0
+    else ""
+)
+unknown_seg = (
+    f'<div class="report-comp-seg unknown" style="flex:{unknown_flex};min-width:6px"></div>'
+    if unknown_count > 0
+    else ""
+)
+
 st.markdown(
-    '<p class="stage-question">'
-    "What is the composition and traffic situation?"
-    "</p>",
+    f'<div class="report-comp">'
+    f'<div class="report-comp-heading">COMPOSITION</div>'
+    f'<div class="report-comp-bar">{military_seg}{civilian_seg}{unknown_seg}</div>'
+    f'<div class="report-comp-legend">'
+    f'<div class="report-comp-item">'
+    f'<span class="report-comp-dot military"></span>'
+    f"MILITARY "
+    f'<span class="report-comp-count">{military_count}</span>'
+    f"</div>"
+    f'<div class="report-comp-item">'
+    f'<span class="report-comp-dot civilian"></span>'
+    f"CIVILIAN "
+    f'<span class="report-comp-count">{civilian_count}</span>'
+    f"</div>"
+    f'<div class="report-comp-item">'
+    f'<span class="report-comp-dot unknown"></span>'
+    f"UNKNOWN "
+    f'<span class="report-comp-count">{unknown_count}</span>'
+    f"</div>"
+    f"</div>"
+    f'<div class="report-comp-heading">TRAFFIC</div>'
+    f'<p class="report-traffic-line">'
+    f'{analysis["congestion"]["level"]} congestion · '
+    f'{analysis["congestion"]["density"]} density'
+    f"</p>"
+    f"</div>",
     unsafe_allow_html=True,
 )
-
-
-summary_col1, summary_col2, summary_col3, summary_col4 = st.columns(
-    4,
-    gap="small",
-)
-
-
-with summary_col1:
-
-    st.metric(
-        "TOTAL VESSELS",
-        analysis["total_ships"],
-    )
-
-
-with summary_col2:
-
-    st.metric(
-        "MILITARY",
-        analysis["military_ships"],
-    )
-
-
-with summary_col3:
-
-    st.metric(
-        "CIVILIAN",
-        analysis["civilian_ships"],
-    )
-
-
-with summary_col4:
-
-    st.metric(
-        "UNKNOWN",
-        analysis["unknown_ships"],
-    )
-
-
-analysis_col1, analysis_col2 = st.columns(
-    [1.35, 1],
-    gap="medium",
-)
-
-
-with analysis_col1:
-
-    with st.container(border=True):
-
-        st.caption("FORCE COMPOSITION")
-
-        st.markdown(
-            f'<div class="config-line">'
-            f'<span class="config-key">Military</span>'
-            f'<span class="config-val">{analysis["military_ships"]}</span>'
-            f"</div>"
-            f'<div class="config-line">'
-            f'<span class="config-key">Civilian</span>'
-            f'<span class="config-val">{analysis["civilian_ships"]}</span>'
-            f"</div>"
-            f'<div class="config-line">'
-            f'<span class="config-key">Unknown</span>'
-            f'<span class="config-val">{analysis["unknown_ships"]}</span>'
-            f"</div>",
-            unsafe_allow_html=True,
-        )
-
-        st.markdown(
-            '<p class="obs-note">'
-            "Composition derived from detected vessel classes. "
-            "Per-class counts are listed in Perception."
-            "</p>",
-            unsafe_allow_html=True,
-        )
-
-
-with analysis_col2:
-
-    with st.container(border=True):
-
-        st.caption("TRAFFIC CONDITIONS")
-
-        st.markdown(
-            f'<div class="config-line">'
-            f'<span class="config-key">Congestion</span>'
-            f'<span class="config-val">{analysis["congestion"]["level"]}</span>'
-            f"</div>"
-            f'<div class="config-line">'
-            f'<span class="config-key">Density</span>'
-            f'<span class="config-val">{analysis["congestion"]["density"]}</span>'
-            f"</div>",
-            unsafe_allow_html=True,
-        )
 
 
 st.divider()
@@ -1376,13 +1929,6 @@ st.markdown(
 
 st.header("Activity Concentration")
 
-st.markdown(
-    '<p class="stage-question">'
-    "Where is activity concentrated?"
-    "</p>",
-    unsafe_allow_html=True,
-)
-
 
 spatial_col1, spatial_col2 = st.columns(
     2,
@@ -1392,26 +1938,32 @@ spatial_col1, spatial_col2 = st.columns(
 
 with spatial_col1:
 
-    with st.container(border=True):
+    st.markdown(
+        '<div class="report-figure-spatial"></div>',
+        unsafe_allow_html=True,
+    )
 
-        st.caption("VESSEL DENSITY")
+    st.caption("VESSEL DENSITY")
 
-        st.image(
-            to_display_image(heatmap),
-            width=SPATIAL_IMAGE_WIDTH,
-        )
+    st.image(
+        to_display_image(heatmap),
+        use_container_width=True,
+    )
 
 
 with spatial_col2:
 
-    with st.container(border=True):
+    st.markdown(
+        '<div class="report-figure-spatial"></div>',
+        unsafe_allow_html=True,
+    )
 
-        st.caption("TRAFFIC ZONES")
+    st.caption("TRAFFIC ZONES")
 
-        st.image(
-            to_display_image(zone_overlay),
-            width=SPATIAL_IMAGE_WIDTH,
-        )
+    st.image(
+        to_display_image(zone_overlay),
+        use_container_width=True,
+    )
 
 
 if zone_counts.max() > 0:
@@ -1434,34 +1986,24 @@ if zone_counts.max() > 0:
         primary_hotspot[1]
     ) + 1
 
-    spatial_metric1, spatial_metric2, spatial_metric3 = st.columns(
-        3,
-        gap="small",
-    )
-
-    with spatial_metric1:
-
-        st.metric(
-            "PRIMARY HOTSPOT",
-            f"Zone {hotspot_row},{hotspot_col}",
-        )
-
-    with spatial_metric2:
-
-        st.metric(
-            "MAX CONCENTRATION",
-            highest_concentration,
-        )
-
-    with spatial_metric3:
-
-        st.metric(
-            "ACTIVE ZONES",
-            f"{active_zones} / 16",
-        )
-
     st.markdown(
-        f'<p class="obs-note">'
+        f'<div class="report-spatial-meta">'
+        f'<div class="report-spatial-item">'
+        f'<div class="report-spatial-label">PRIMARY HOTSPOT</div>'
+        f'<div class="report-spatial-value">'
+        f"Zone {hotspot_row},{hotspot_col}"
+        f"</div>"
+        f"</div>"
+        f'<div class="report-spatial-item">'
+        f'<div class="report-spatial-label">MAX CONCENTRATION</div>'
+        f'<div class="report-spatial-value">{highest_concentration}</div>'
+        f"</div>"
+        f'<div class="report-spatial-item">'
+        f'<div class="report-spatial-label">ACTIVE ZONES</div>'
+        f'<div class="report-spatial-value">{active_zones} / 16</div>'
+        f"</div>"
+        f"</div>"
+        f'<p class="report-spatial-note">'
         f"Highest concentration in Zone {hotspot_row},{hotspot_col} "
         f"({highest_concentration} vessels). "
         f"Activity present in {active_zones} of 16 zones."
@@ -1479,13 +2021,6 @@ st.markdown(
 )
 
 st.header("Attention Signals")
-
-st.markdown(
-    '<p class="stage-question">'
-    "What requires attention?"
-    "</p>",
-    unsafe_allow_html=True,
-)
 
 
 risk_level = analysis["risk_level"]
@@ -1508,45 +2043,53 @@ else:
     alert_tone = "ok"
 
 
-risk_col1, risk_col2, risk_col3 = st.columns(
-    3,
-    gap="medium",
+alert_text_html = (
+    str(alert_text)
+    .rstrip(".")
+    .replace("&", "&amp;")
+    .replace("<", "&lt;")
+    .replace(">", "&gt;")
+)
+clustering_status_html = (
+    str(clustering_status)
+    .replace("&", "&amp;")
+    .replace("<", "&lt;")
+    .replace(">", "&gt;")
+)
+clustering_message_html = (
+    str(analysis["clustering"]["message"])
+    .rstrip(".")
+    .replace("&", "&amp;")
+    .replace("<", "&lt;")
+    .replace(">", "&gt;")
+)
+risk_level_html = (
+    str(risk_level)
+    .upper()
+    .replace("&", "&amp;")
+    .replace("<", "&lt;")
+    .replace(">", "&gt;")
 )
 
-with risk_col1:
-
-    with st.container(border=True):
-
-        st.caption("RISK LEVEL")
-
-        st.markdown(
-            f'<span class="risk-pill {risk_class}">{risk_level.upper()}</span>',
-            unsafe_allow_html=True,
-        )
-
-        st.markdown(
-            f'<p class="obs-note">'
-            f"Military vessels: {analysis['military_ships']} · "
-            f"Total vessels: {analysis['total_ships']}"
-            f"</p>",
-            unsafe_allow_html=True,
-        )
-
-with risk_col2:
-
-    render_signal_box(
-        "SYSTEM ALERT",
-        alert_text,
-        tone=alert_tone,
-    )
-
-with risk_col3:
-
-    render_signal_box(
-        "CLUSTERING",
-        f"{clustering_status}. {analysis['clustering']['message']}",
-        tone=clustering_tone,
-    )
+st.markdown(
+    f'<div class="report-risk-banner {risk_class}">'
+    f'<div class="report-risk-level">{risk_level_html} RISK</div>'
+    f'<div class="report-risk-signals">'
+    f'<div class="report-risk-signal {alert_tone}">'
+    f'<div class="report-risk-signal-text">{alert_text_html}</div>'
+    f"</div>"
+    f'<div class="report-risk-signal {clustering_tone}">'
+    f'<div class="report-risk-signal-text">{clustering_status_html}</div>'
+    f"</div>"
+    f"</div>"
+    f'<p class="report-risk-meta">'
+    f"Military vessels: {analysis['military_ships']} · "
+    f"Total vessels: {analysis['total_ships']} · "
+    f"{clustering_message_html}"
+    f"</p>"
+    f"</div>",
+    unsafe_allow_html=True,
+)
 
 
 st.divider()
@@ -1557,19 +2100,11 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-st.header("Intelligence Synthesis")
+st.header("AI Intelligence Assessment")
 
 st.markdown(
-    '<p class="stage-question">'
-    "What does the complete evidence set mean?"
-    "</p>",
-    unsafe_allow_html=True,
-)
-
-st.markdown(
-    '<p class="ai-meta">'
-    "OBSERVATION = computer vision and analytical signals above · "
-    "AI INTERPRETATION = Gemini synthesis below"
+    '<p class="report-ai-lead">'
+    "Generate an interpretation of the complete evidence above"
     "</p>",
     unsafe_allow_html=True,
 )
@@ -1578,11 +2113,6 @@ st.markdown(
 if st.session_state.intelligence_report is None:
 
     with st.container(border=True):
-
-        st.markdown(
-            '<div class="ai-panel-label">AI ASSESSMENT</div>',
-            unsafe_allow_html=True,
-        )
 
         if st.session_state.intelligence_error:
 
@@ -1614,13 +2144,6 @@ if st.session_state.intelligence_report is None:
             )
 
         else:
-
-            st.caption(
-                "Gemini synthesis of the complete intelligence picture: "
-                "vessel composition, traffic conditions, risk signals, "
-                "and spatial concentration. Generated once on request and "
-                "stored for this session."
-            )
 
             generate_button = st.button(
                 "GENERATE AI ASSESSMENT",
@@ -1733,25 +2256,23 @@ if st.session_state.intelligence_report:
 st.divider()
 
 
-with st.container(border=True):
+st.caption("MISSION SUMMARY")
 
-    st.caption("MISSION SUMMARY")
+st.markdown(
+    f'<div class="mono-value">'
+    f"{analysis['total_ships']} vessels · "
+    f"{analysis['military_ships']} military · "
+    f"{analysis['civilian_ships']} civilian · "
+    f"{analysis['congestion']['level']} congestion · "
+    f"{analysis['risk_level']} risk"
+    f"</div>",
+    unsafe_allow_html=True,
+)
 
-    st.markdown(
-        f'<div class="mono-value">'
-        f"{analysis['total_ships']} vessels · "
-        f"{analysis['military_ships']} military · "
-        f"{analysis['civilian_ships']} civilian · "
-        f"{analysis['congestion']['level']} congestion · "
-        f"{analysis['risk_level']} risk"
-        f"</div>",
-        unsafe_allow_html=True,
-    )
-
-    st.markdown(
-        '<p class="obs-note">'
-        "Computer vision observations should be verified by a human analyst "
-        "before operational decisions are made."
-        "</p>",
-        unsafe_allow_html=True,
-    )
+st.markdown(
+    '<p class="obs-note">'
+    "Computer vision observations should be verified by a human analyst "
+    "before operational decisions are made."
+    "</p>",
+    unsafe_allow_html=True,
+)

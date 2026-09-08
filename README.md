@@ -4,7 +4,7 @@ Streamlit application that takes a satellite image, runs a custom-trained YOLOv8
 
 ## Live demo
 
-https://satellite-maritime-intelligence-hxctcpaxdl4ovhwmqnaf5e.streamlit.app/
+https://ai-maritime-intelligence-m6nshpckjyg3odgnl6q7ha.streamlit.app/
 
 ## Overview
 

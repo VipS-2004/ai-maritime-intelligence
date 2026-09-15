@@ -71,9 +71,11 @@ hr {
   background: var(--color-surface-raised) !important;
   border: 1px dashed var(--color-border-strong) !important;
   border-radius: calc(var(--radius-md) - 2px) !important;
-  transition: border-color var(--transition-fast),
-    background var(--transition-fast),
-    box-shadow var(--transition-normal);
+}
+
+.stApp:has(.opening-workspace) [data-testid="stFileUploader"],
+.stApp:has(.opening-workspace) [data-testid="stFileUploaderDropzone"] {
+  transition: none !important;
 }
 
 [data-testid="stFileUploader"]:hover [data-testid="stFileUploaderDropzone"] {
@@ -227,9 +229,7 @@ hr {
   border-radius: var(--radius-lg) !important;
   background: var(--color-surface) !important;
   box-shadow: var(--shadow-elev-1) !important;
-  transition: border-color var(--transition-normal),
-    box-shadow var(--transition-normal),
-    background var(--transition-fast);
+  transition: none !important;
 }
 
 .stApp:has(.opening-workspace):has(.opening-empty)

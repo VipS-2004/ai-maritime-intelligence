@@ -295,12 +295,11 @@
   margin: 0 !important;
   min-height: 4.5rem !important;
   padding: 1.05rem 1.15rem !important;
-  display: flex !important;
-  align-items: center !important;
   border: 1px dashed var(--color-border-strong) !important;
   border-radius: var(--radius-lg) !important;
   background: var(--color-surface) !important;
   box-shadow: var(--shadow-elev-1) !important;
+  transition: none !important;
 }
 
 /* Preview + action layout (image selected) */

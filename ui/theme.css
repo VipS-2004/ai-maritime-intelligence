@@ -508,35 +508,31 @@
     }
 
     .stApp:has(.opening-workspace) [data-testid="stFileUploaderDropzone"] {
-        min-height: 0 !important;
-        height: auto !important;
         width: 100%;
         padding: 0.75rem 1rem !important;
+        transition: none !important;
     }
 
-    .stApp:has(.has-source-image) [data-testid="stFileUploaderDropzone"],
-    .stApp:has(.has-source-image) [data-testid="stFileUploaderFile"] {
-        display: none !important;
+    /* Keep the native file input in the layout after a pick.
+       display:none / height:0 on this widget clears camera files on iOS/Android. */
+    .stApp:has(.has-source-image) [data-testid="stElementContainer"]:has([data-testid="stFileUploader"]) {
+        position: absolute !important;
+        width: 1px !important;
+        height: 1px !important;
+        padding: 0 !important;
+        margin: -1px !important;
+        overflow: hidden !important;
+        clip: rect(0, 0, 0, 0) !important;
+        clip-path: inset(50%) !important;
+        border: 0 !important;
+        white-space: nowrap !important;
     }
 
     .stApp:has(.has-source-image) [data-testid="stFileUploader"] {
-        height: 0 !important;
-        max-height: 0 !important;
-        min-height: 0 !important;
         margin: 0 !important;
         padding: 0 !important;
-        overflow: hidden !important;
         border: none !important;
         max-width: none;
-    }
-
-    .stApp:has(.has-source-image) [data-testid="stElementContainer"]:has([data-testid="stFileUploader"]) {
-        display: none !important;
-        min-height: 0 !important;
-        height: 0 !important;
-        margin: 0 !important;
-        padding: 0 !important;
-        overflow: hidden !important;
     }
 
     .has-source-image {

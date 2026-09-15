@@ -20,8 +20,10 @@ Satellite Image -> YOLOv8 Detection -> Ship Counting -> Congestion Analysis
 ```text
 satellite-maritime-intelligence/
 │
-├── main.py                          # Entry point and pipeline orchestrator
+├── app.py                           # Streamlit web dashboard
+├── main.py                          # CLI pipeline orchestrator
 ├── requirements.txt                 # Python dependencies
+├── ui/                              # Dashboard theme and HTML components (CSS)
 ├── models/
 │   └── detector.py                  # YOLOv8 model loading and inference
 ├── analysis/
@@ -64,6 +66,16 @@ pip install -r requirements.txt
 ---
 
 ## Usage
+
+### Web dashboard
+
+```bash
+streamlit run app.py
+```
+
+Upload a satellite image in the browser to run detection, maritime analysis, spatial views, risk signals, and optional AI assessment.
+
+### CLI
 
 ```bash
 python main.py --image <path_to_image> --weights <path_to_weights> --grid <grid_size>

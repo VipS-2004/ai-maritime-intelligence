@@ -13,5 +13,11 @@ def _read_css(name: str) -> str:
 
 def inject_theme() -> None:
     """Load tokens + theme into the app once per run (Streamlit re-executes script)."""
-    combined = f"{_read_css('tokens.css')}\n{_read_css('theme.css')}"
+    combined = "\n".join(
+        [
+            _read_css("tokens.css"),
+            _read_css("theme.css"),
+            _read_css("refresh.css"),
+        ]
+    )
     st.markdown(f"<style>\n{combined}\n</style>", unsafe_allow_html=True)

@@ -12,6 +12,13 @@ from ai.agent import generate_intelligence_report, GeminiQuotaError
 from visualization.visualizer import generate_heatmap, zone_based_analysis
 
 from ui.inject import inject_theme
+from ui.components import (
+    opening_action_shell_html,
+    opening_header_html,
+    opening_intro_html,
+    opening_preview_shell_html,
+    opening_upload_prompt_html,
+)
 
 
 PERCEPTION_IMAGE_WIDTH = 560
@@ -437,11 +444,9 @@ if not st.session_state.analysis_complete:
     )
 
     st.markdown(
-        '<div class="app-kicker">SATELLITE MARITIME INTELLIGENCE</div>',
+        opening_header_html(),
         unsafe_allow_html=True,
     )
-
-    st.title("Maritime Intelligence")
 
     pipeline_slot = st.empty()
 
@@ -454,37 +459,12 @@ if not st.session_state.analysis_complete:
         )
 
     st.markdown(
-        '<div class="opening-intro">'
-        '<p class="opening-lead-title">'
-        "Turn satellite imagery into a structured maritime intelligence report"
-        "</p>"
-        '<p class="opening-lead-copy">'
-        "Upload a satellite image and the system will detect and classify ships, "
-        "analyze vessel composition and traffic, identify spatial concentration, "
-        "assess risk signals, and optionally generate an AI-assisted intelligence "
-        "assessment"
-        "</p>"
-        '<div class="opening-steps">'
-        '<div class="opening-step">'
-        '<div class="opening-step-kicker">01 — DETECT</div>'
-        '<p class="opening-step-text">'
-        "Ships &amp; boats detected from satellite imagery"
-        "</p>"
-        "</div>"
-        '<div class="opening-step">'
-        '<div class="opening-step-kicker">02 — ANALYZE</div>'
-        '<p class="opening-step-text">'
-        "Vessel composition, traffic, spatial concentration &amp; risk"
-        "</p>"
-        "</div>"
-        '<div class="opening-step">'
-        '<div class="opening-step-kicker">03 — INTERPRET</div>'
-        '<p class="opening-step-text">'
-        "AI-assisted synthesis of the complete intelligence picture"
-        "</p>"
-        "</div>"
-        "</div>"
-        "</div>",
+        opening_intro_html(),
+        unsafe_allow_html=True,
+    )
+
+    st.markdown(
+        opening_upload_prompt_html(),
         unsafe_allow_html=True,
     )
 
@@ -542,6 +522,11 @@ if not st.session_state.analysis_complete:
 
     with preview_col:
 
+        st.markdown(
+            opening_preview_shell_html(),
+            unsafe_allow_html=True,
+        )
+
         st.caption("SOURCE IMAGE")
 
         st.image(
@@ -551,12 +536,12 @@ if not st.session_state.analysis_complete:
 
     with action_col:
 
-        st.caption("ANALYSIS ACTION")
-
         st.markdown(
-            '<p class="opening-ready-note">Source image ready</p>',
+            opening_action_shell_html(),
             unsafe_allow_html=True,
         )
+
+        st.caption("RUN PIPELINE")
 
         analyze_button = st.button(
             "RUN ANALYSIS",

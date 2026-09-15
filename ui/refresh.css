@@ -214,12 +214,19 @@ hr {
 
 /* Opening — empty upload state */
 
+.stApp:has(.opening-workspace):has(.opening-empty) [data-testid="stFileUploader"] {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
 .stApp:has(.opening-workspace):has(.opening-empty)
   [data-testid="stFileUploaderDropzone"] {
   border: 1px dashed var(--color-border-strong) !important;
   border-radius: var(--radius-lg) !important;
   background: var(--color-surface) !important;
-  box-shadow: var(--shadow-elev-2), var(--shadow-inset-highlight);
+  box-shadow: var(--shadow-elev-1) !important;
   transition: border-color var(--transition-normal),
     box-shadow var(--transition-normal),
     background var(--transition-fast);

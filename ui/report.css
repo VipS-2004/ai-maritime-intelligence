@@ -1,0 +1,219 @@
+/* Phase 4 — intelligence report workspace */
+
+.stApp:has(.report-workspace) .main .block-container,
+.stApp:has(.report-workspace) div.block-container,
+.stApp:has(.report-workspace) [data-testid="stMainBlockContainer"] {
+  padding-top: 2.85rem !important;
+}
+
+.stApp:has(.report-workspace) section.main {
+  overflow: visible !important;
+}
+
+.stApp:has(.report-workspace) [data-testid="stElementContainer"]:has(.report-kicker),
+.stApp:has(.report-workspace) [data-testid="stElementContainer"]:has(.report-sticky-nav) {
+  overflow: visible !important;
+  height: auto !important;
+}
+
+.stApp:has(.report-workspace) [data-testid="stHorizontalBlock"]:has(.report-kicker) {
+  overflow: visible !important;
+  padding-top: 0.35rem;
+  margin-bottom: 0.65rem !important;
+  align-items: flex-start !important;
+}
+
+.stApp:has(.report-workspace) [data-testid="stHorizontalBlock"]:has(.report-kicker) > div {
+  overflow: visible !important;
+}
+
+.stApp:has(.report-workspace) div[data-testid="stVerticalBlock"] > div {
+  gap: 0.85rem !important;
+}
+
+.stApp:has(.report-workspace) [data-testid="stHorizontalBlock"]:has(.report-kicker) {
+  align-items: center !important;
+  margin-bottom: 0.15rem;
+}
+
+.stApp:has(.report-workspace) .report-kicker {
+  font-family: var(--font-sans);
+  letter-spacing: 0.06em;
+  line-height: 1.45 !important;
+  padding-top: 0.2rem;
+  display: block;
+}
+
+/* Sticky stage navigator */
+
+.stApp:has(.report-workspace) .report-sticky-nav {
+  position: sticky;
+  top: 3.25rem;
+  z-index: 90;
+  margin: 0 0 1rem 0;
+  padding: 0.15rem 0 0.65rem 0;
+  background: linear-gradient(
+    180deg,
+    rgba(6, 11, 18, 0.97) 0%,
+    rgba(6, 11, 18, 0.92) 72%,
+    rgba(6, 11, 18, 0) 100%
+  );
+  backdrop-filter: blur(10px);
+}
+
+.stApp:has(.report-workspace) .report-sticky-inner {
+  padding: 0.65rem 1rem 0.7rem;
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-elev-2);
+}
+
+.stApp:has(.report-workspace) .report-breadcrumb {
+  display: none !important;
+}
+
+.stApp:has(.report-workspace) .report-sticky-inner .pipeline-bar {
+  display: none !important;
+}
+
+.stApp:has(.report-workspace) .report-stage-rail {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.4rem 0.5rem;
+  padding: 0.15rem 0;
+}
+
+.stApp:has(.report-workspace) .report-stage-chip {
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.stApp:has(.report-workspace) .report-stage-sep {
+  color: var(--color-accent-dim);
+  font-size: 0.72rem;
+  line-height: 1;
+}
+
+/* Section cards */
+
+.stApp:has(.report-workspace) [data-testid="stVerticalBlockBorderWrapper"] {
+  margin-bottom: 0.15rem;
+  border-radius: var(--radius-lg) !important;
+  border-color: var(--color-border) !important;
+  box-shadow: var(--shadow-elev-2) !important;
+  background: var(--color-surface-raised) !important;
+}
+
+.stApp:has(.report-workspace) [data-testid="stVerticalBlockBorderWrapper"] > div {
+  padding: 0.85rem 1rem 1rem !important;
+}
+
+.stApp:has(.report-workspace) .report-section-anchor {
+  display: none;
+}
+
+.stApp:has(.report-workspace) .report-section-header {
+  margin: 0 0 0.85rem 0;
+  padding: 0 0 0.75rem 0;
+  border-bottom: 1px solid var(--color-border-subtle);
+}
+
+.stApp:has(.report-workspace) .report-section-title {
+  margin: 0.2rem 0 0 0 !important;
+  padding: 0;
+  color: var(--color-text-heading) !important;
+  font-family: var(--font-sans) !important;
+  font-size: 1.18rem !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.15px;
+  line-height: 1.25;
+}
+
+.stApp:has(.report-workspace) .report-section-header .stage-kicker {
+  margin-bottom: 0.15rem;
+}
+
+/* Composition & spatial polish */
+
+.stApp:has(.report-workspace) .report-comp {
+  margin-top: 0.15rem;
+}
+
+.stApp:has(.report-workspace) .report-spatial-meta {
+  padding: 0.75rem 0.85rem;
+  background: rgba(12, 21, 34, 0.55);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-md);
+}
+
+.stApp:has(.report-workspace) .report-risk-banner {
+  margin-top: 0.1rem;
+}
+
+/* AI section */
+
+.stApp:has(.report-workspace) .report-ai-lead {
+  margin-top: 0 !important;
+}
+
+.stApp:has(.report-workspace) .report-section-ai [data-testid="stVerticalBlockBorderWrapper"] {
+  background: rgba(10, 18, 28, 0.65) !important;
+}
+
+.stApp:has(.report-workspace) .ai-panel-label {
+  color: var(--color-accent);
+  margin-bottom: 0.45rem;
+}
+
+/* Footer */
+
+.stApp:has(.report-workspace) .report-footer {
+  margin: 0.35rem 0 0.5rem 0;
+  padding: 1rem 1.05rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-elev-1);
+}
+
+.stApp:has(.report-workspace) .report-footer-label {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-kicker);
+  margin-bottom: 0.35rem;
+}
+
+.stApp:has(.report-workspace) .report-footer-stats {
+  font-size: 0.86rem;
+  line-height: 1.45;
+}
+
+.stApp:has(.report-workspace) .report-footer-note {
+  margin-top: 0.55rem;
+  margin-bottom: 0;
+}
+
+@media (max-width: 900px) {
+  .stApp:has(.report-workspace) .report-sticky-nav {
+    top: 2.75rem;
+  }
+
+  .stApp:has(.report-workspace) .report-stage-rail {
+    row-gap: 0.35rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stApp:has(.report-workspace) .report-sticky-nav {
+    backdrop-filter: none;
+  }
+}

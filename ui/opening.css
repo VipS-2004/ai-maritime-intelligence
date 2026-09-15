@@ -17,6 +17,10 @@
   overflow: visible !important;
 }
 
+.stApp:has(.opening-workspace) section.main {
+  overflow: visible !important;
+}
+
 .stApp:has(.opening-workspace):has(.opening-empty) .main .block-container,
 .stApp:has(.opening-workspace):has(.opening-empty) div.block-container,
 .stApp:has(.opening-workspace):has(.opening-empty) [data-testid="stMainBlockContainer"],
@@ -24,40 +28,51 @@
 .stApp:has(.opening-workspace):has(.has-source-image) div.block-container,
 .stApp:has(.opening-workspace):has(.has-source-image)
   [data-testid="stMainBlockContainer"] {
-  padding-top: 1.15rem !important;
+  padding-top: 2rem !important;
 }
 
 .stApp:has(.opening-workspace) .opening-page-head {
-  margin: 0 0 1.1rem 0;
-  padding-top: 0.15rem;
+  margin: 0 0 1.35rem 0;
+  padding-top: 0.35rem;
   overflow: visible;
 }
 
+.stApp:has(.opening-workspace):has(.has-source-image) .opening-page-head {
+  margin-bottom: 1.5rem;
+}
+
 .stApp:has(.opening-workspace) .opening-kicker {
-  margin: 0 0 0.55rem 0.2rem;
-  padding: 0;
+  margin: 0 0 0.15rem 0;
+  padding: 0.15rem 0 0.45rem 0;
   font-family: var(--font-sans);
   font-size: 0.72rem;
   font-weight: 600;
-  letter-spacing: 0.1em;
-  line-height: 1.55;
+  letter-spacing: 0.08em;
+  line-height: 1.6;
   text-transform: uppercase;
   color: var(--color-text-kicker);
 }
 
 .stApp:has(.opening-workspace) .opening-topbar {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  flex-wrap: wrap;
-  padding: 0.85rem 1.05rem;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.7rem;
+  padding: 0.85rem 1.05rem 0.8rem;
   margin: 0;
   overflow: visible;
   background: var(--color-surface-raised);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-elev-2), var(--shadow-inset-highlight);
+}
+
+.stApp:has(.opening-workspace) .opening-topbar-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
 }
 
 .stApp:has(.opening-workspace) .opening-brand {
@@ -191,9 +206,14 @@
   margin: 0 !important;
 }
 
+.stApp:has(.opening-workspace) [data-testid="stElementContainer"]:has(.pipeline-bar) {
+  overflow: visible !important;
+  padding: 0.35rem 0 0.3rem !important;
+}
+
 .stApp:has(.opening-workspace) .pipeline-bar {
   align-items: center !important;
-  padding: 0.6rem 0 0.55rem !important;
+  padding: 0.65rem 0 0.6rem !important;
   margin: 0.3rem 0 1.1rem !important;
   min-height: 2.35rem;
   box-sizing: border-box;

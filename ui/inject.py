@@ -19,6 +19,7 @@ def inject_theme() -> None:
             _read_css("theme.css"),
             _read_css("refresh.css"),
             _read_css("opening.css"),
+            _read_css("report.css"),
         ]
     )
     st.markdown(f"<style>\n{combined}\n</style>", unsafe_allow_html=True)

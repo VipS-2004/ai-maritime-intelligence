@@ -35,8 +35,9 @@ _BRAND_MARK = """
 def opening_header_html() -> str:
     return (
         '<div class="opening-page-head">'
-        '<p class="opening-kicker">Satellite maritime intelligence</p>'
         '<header class="opening-topbar">'
+        '<p class="opening-kicker">Satellite maritime intelligence</p>'
+        '<div class="opening-topbar-row">'
         '<div class="opening-brand">'
         f'<span class="opening-brand-mark">{_BRAND_MARK}</span>'
         '<h1 class="opening-hero-title">Maritime Intelligence</h1>'
@@ -44,6 +45,7 @@ def opening_header_html() -> str:
         '<div class="opening-status-chip">'
         '<span class="opening-status-dot"></span>'
         "<span>Mission · Standby</span>"
+        "</div>"
         "</div>"
         "</header>"
         "</div>"
@@ -115,5 +117,105 @@ def opening_action_shell_html() -> str:
         '<div class="opening-action-card">'
         '<p class="opening-action-eyebrow">Analysis</p>'
         '<p class="opening-ready-note">Source image loaded and ready to process.</p>'
+        "</div>"
+    )
+
+
+def pipeline_indicator_html(
+    current_stage="mission",
+    completed=False,
+    stages=None,
+) -> str:
+    if not stages:
+        return ""
+
+    stage_ids = [stage_id for stage_id, _ in stages]
+    current_index = stage_ids.index(current_stage) if current_stage in stage_ids else 0
+
+    parts = ['<div class="pipeline-bar">']
+
+    for index, (stage_id, label) in enumerate(stages):
+        if completed:
+            state = "done"
+        elif index < current_index:
+            state = "done"
+        elif index == current_index:
+            state = "active"
+        else:
+            state = "pending"
+
+        parts.append('<div class="pipeline-item">')
+        parts.append(f'<span class="pipeline-dot {state}"></span>')
+        parts.append(f'<span class="pipeline-label {state}">{label}</span>')
+        parts.append("</div>")
+
+        if index < len(stages) - 1:
+            parts.append('<div class="pipeline-sep"></div>')
+
+    parts.append("</div>")
+    return "".join(parts)
+
+
+def report_stage_rail_html(stages) -> str:
+    """Single-line report stage labels (no second pipeline row)."""
+    parts = ['<div class="report-stage-rail">']
+    for index, (_, label) in enumerate(stages):
+        parts.append(f'<span class="report-stage-chip">{label}</span>')
+        if index < len(stages) - 1:
+            parts.append('<span class="report-stage-sep">·</span>')
+    parts.append("</div>")
+    return "".join(parts)
+
+
+def report_sticky_nav_html(stages) -> str:
+    report_stages = [
+        (stage_id, label)
+        for stage_id, label in stages
+        if stage_id != "mission"
+    ]
+    rail = report_stage_rail_html(report_stages)
+    return (
+        '<div class="report-sticky-nav">'
+        f'<div class="report-sticky-inner">{rail}</div>'
+        "</div>"
+    )
+
+
+def report_section_header_html(
+    number: str,
+    code: str,
+    title: str,
+    anchor_class: str,
+) -> str:
+    return (
+        f'<div class="report-section-anchor {anchor_class}"></div>'
+        '<div class="report-section-header">'
+        f'<div class="stage-kicker">{number}  /  {code}</div>'
+        f'<h2 class="report-section-title">{title}</h2>'
+        "</div>"
+    )
+
+
+def report_footer_html(
+    total_ships: int,
+    military_ships: int,
+    civilian_ships: int,
+    congestion_level: str,
+    risk_level: str,
+) -> str:
+    return (
+        '<div class="report-footer">'
+        '<div class="report-footer-label">Mission summary</div>'
+        '<div class="mono-value report-footer-stats">'
+        f"{total_ships} vessels · "
+        f"{military_ships} military · "
+        f"{civilian_ships} civilian · "
+        f"{congestion_level} congestion · "
+        f"{risk_level} risk"
+        "</div>"
+        '<p class="obs-note report-footer-note">'
+        "Computer vision observations should be verified by a human analyst "
+        "before operational decisions are made."
+        "</p>"
         "</div>"
     )

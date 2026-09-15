@@ -331,6 +331,8 @@ def render_ai_content(text):
         st.caption("No assessment available")
         return
 
+    lines = []
+
     for line in text.splitlines():
 
         value = line.strip()
@@ -352,15 +354,17 @@ def render_ai_content(text):
         }:
             continue
 
-        if value.startswith("- "):
-            st.markdown(value)
-            continue
+        lines.append(value)
 
-        if re.match(r"^\d+\.\s+", value):
-            st.markdown(value)
-            continue
+    if not lines:
+        st.caption("No assessment available")
+        return
 
-        st.write(value)
+    st.markdown(
+        '<div class="ai-panel-prose-marker"></div>',
+        unsafe_allow_html=True,
+    )
+    st.markdown("\n\n".join(lines))
 
 
 def build_intelligence_context(analysis, zone_counts, hotspots):

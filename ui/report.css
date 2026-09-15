@@ -168,7 +168,93 @@
 
 .stApp:has(.report-workspace) .ai-panel-label {
   color: var(--color-accent);
+  margin-bottom: 0.55rem;
+  padding-top: 0.15rem;
+}
+
+/* AI narrative panels — avoid clipped prose in nested bordered widgets */
+
+.stApp:has(.report-workspace) [data-testid="stVerticalBlockBorderWrapper"]:has(.ai-panel-label) {
+  overflow: visible !important;
+  min-height: 0 !important;
+}
+
+.stApp:has(.report-workspace) [data-testid="stVerticalBlockBorderWrapper"]:has(.ai-panel-label) > div {
+  overflow: visible !important;
+  padding-top: 0.5rem !important;
+  padding-bottom: 0.65rem !important;
+}
+
+.stApp:has(.report-workspace)
+  [data-testid="stVerticalBlockBorderWrapper"]:has(.ai-panel-label)
+  [data-testid="stElementContainer"] {
+  overflow: visible !important;
+}
+
+.stApp:has(.report-workspace)
+  [data-testid="stVerticalBlockBorderWrapper"]:has(.ai-panel-label)
+  [data-testid="stMarkdownContainer"] {
+  overflow: visible !important;
+}
+
+.stApp:has(.report-workspace)
+  [data-testid="stVerticalBlockBorderWrapper"]:has(.ai-panel-label)
+  .stMarkdown,
+.stApp:has(.report-workspace)
+  [data-testid="stVerticalBlockBorderWrapper"]:has(.ai-panel-label)
+  .stMarkdown
+  p {
+  color: var(--color-text-muted) !important;
+  font-size: 0.88rem;
+  line-height: 1.58;
+  margin: 0 0 0.7rem 0;
+}
+
+.stApp:has(.report-workspace)
+  [data-testid="stVerticalBlockBorderWrapper"]:has(.ai-panel-label)
+  .stMarkdown
+  p:last-child {
+  margin-bottom: 0.15rem;
+}
+
+.stApp:has(.report-workspace)
+  [data-testid="stVerticalBlockBorderWrapper"]:has(.ai-panel-label)
+  .stMarkdown
+  strong {
+  color: var(--color-text-heading);
+  font-weight: 600;
+}
+
+.stApp:has(.report-workspace)
+  [data-testid="stVerticalBlockBorderWrapper"]:has(.ai-panel-label)
+  .stMarkdown
+  ol,
+.stApp:has(.report-workspace)
+  [data-testid="stVerticalBlockBorderWrapper"]:has(.ai-panel-label)
+  .stMarkdown
+  ul {
+  margin: 0.35rem 0 0.75rem 0;
+  padding-left: 1.15rem;
+}
+
+.stApp:has(.report-workspace)
+  [data-testid="stVerticalBlockBorderWrapper"]:has(.ai-panel-label)
+  .stMarkdown
+  li {
   margin-bottom: 0.45rem;
+  line-height: 1.55;
+}
+
+.stApp:has(.report-workspace) .ai-panel-prose-marker {
+  display: none;
+}
+
+.stApp:has(.report-workspace) [data-testid="stVerticalBlockBorderWrapper"]:has(.report-section-ai)
+  > div
+  > [data-testid="stVerticalBlock"]
+  > [data-testid="stVerticalBlockBorderWrapper"]:has(.ai-panel-label) {
+  margin-bottom: 0.7rem;
+  box-shadow: var(--shadow-elev-1) !important;
 }
 
 /* Footer */

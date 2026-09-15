@@ -1,0 +1,24 @@
+/* Design tokens — layout marker classes (.opening-workspace, .has-source-image,
+   .report-workspace, .opening-empty) must stay in sync with app.py HTML. */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  --font-sans: 'DM Sans', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  --color-bg-app: #060b12;
+  --color-text-primary: #d8e0ea;
+  --color-text-heading: #eef3f8;
+  --color-text-muted: #9aabbd;
+  --color-border: #1a2a3d;
+  --color-accent: #7ec8e3;
+  --color-surface: #0b1420;
+  --color-surface-raised: #0c1522;
+
+  --radius-sm: 3px;
+  --radius-md: 5px;
+  --radius-btn: 4px;
+
+  --layout-max-width: 1360px;
+}

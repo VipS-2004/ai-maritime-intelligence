@@ -1,0 +1,182 @@
+/* Phase 5 — responsive layout, image tuning, AI alert polish */
+
+/* --- Shared page gutters --- */
+
+@media (max-width: 1100px) {
+  .stApp:has(.opening-workspace) .main .block-container,
+  .stApp:has(.opening-workspace) [data-testid="stMainBlockContainer"],
+  .stApp:has(.report-workspace) .main .block-container,
+  .stApp:has(.report-workspace) [data-testid="stMainBlockContainer"] {
+    padding-left: 1.4rem !important;
+    padding-right: 1.4rem !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .stApp:has(.opening-workspace) .main .block-container,
+  .stApp:has(.opening-workspace) [data-testid="stMainBlockContainer"],
+  .stApp:has(.report-workspace) .main .block-container,
+  .stApp:has(.report-workspace) [data-testid="stMainBlockContainer"] {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+
+  .stApp:has(.report-workspace) .main .block-container,
+  .stApp:has(.report-workspace) [data-testid="stMainBlockContainer"] {
+    padding-top: 2.35rem !important;
+  }
+}
+
+/* --- Opening / preview --- */
+
+@media (max-width: 900px) {
+  .stApp:has(.opening-workspace) .opening-lead-title {
+    font-size: 1.15rem;
+  }
+
+  .stApp:has(.has-source-image) [data-testid="stImage"] img {
+    max-height: min(40vh, 340px) !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .stApp:has(.opening-workspace) .opening-topbar-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .stApp:has(.opening-workspace) .opening-status-chip {
+    align-self: flex-start;
+  }
+
+  .stApp:has(.opening-workspace) .opening-hero-title {
+    font-size: 1.28rem !important;
+  }
+
+  .stApp:has(.has-source-image)
+    [data-testid="stHorizontalBlock"]:has(.opening-preview-card)
+    > div:last-child {
+    border-left: none !important;
+    padding-left: 1.05rem !important;
+  }
+
+  .stApp:has(.has-source-image) [data-testid="stImage"] img {
+    max-height: min(36vh, 280px) !important;
+  }
+}
+
+/* --- Intelligence report --- */
+
+@media (max-width: 900px) {
+  .stApp:has(.report-workspace) [data-testid="stHorizontalBlock"] {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+
+  .stApp:has(.report-workspace) [data-testid="stHorizontalBlock"] > [data-testid="column"],
+  .stApp:has(.report-workspace) [data-testid="stHorizontalBlock"] > div {
+    width: 100% !important;
+    min-width: 0 !important;
+    flex: 1 1 auto !important;
+  }
+
+  .stApp:has(.report-workspace) [data-testid="stHorizontalBlock"]:has(.report-kicker) > div:last-child {
+    margin-top: 0.35rem;
+  }
+
+  .stApp:has(.report-workspace) .report-risk-signals {
+    grid-template-columns: 1fr !important;
+    gap: 0.65rem !important;
+  }
+
+  .stApp:has(.report-workspace) [data-testid="stHorizontalBlock"]:has(.report-figure-detect)
+    [data-testid="stImage"]
+    img {
+    max-height: min(40vh, 340px) !important;
+  }
+
+  .stApp:has(.report-workspace) [data-testid="stHorizontalBlock"]:has(.report-figure-spatial)
+    [data-testid="stImage"]
+    img {
+    max-height: min(34vh, 300px) !important;
+  }
+
+  .stApp:has(.report-workspace) .report-sticky-nav {
+    top: 2.65rem;
+  }
+
+  .stApp:has(.report-workspace) .report-section-title {
+    font-size: 1.08rem !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .stApp:has(.report-workspace) .report-kicker {
+    font-size: 1rem !important;
+    letter-spacing: 0.05em;
+  }
+
+  .stApp:has(.report-workspace) .report-sticky-inner {
+    padding: 0.55rem 0.75rem 0.6rem;
+  }
+
+  .stApp:has(.report-workspace) .report-stage-chip {
+    font-size: 0.58rem;
+  }
+
+  .stApp:has(.report-workspace) [data-testid="stVerticalBlockBorderWrapper"] > div {
+    padding: 0.75rem 0.8rem 0.85rem !important;
+  }
+
+  .stApp:has(.report-workspace) [data-testid="stHorizontalBlock"]:has(.report-figure-detect)
+    [data-testid="stImage"]
+    img {
+    max-height: min(34vh, 260px) !important;
+  }
+
+  .stApp:has(.report-workspace) [data-testid="stHorizontalBlock"]:has(.report-figure-spatial)
+    [data-testid="stImage"]
+    img {
+    max-height: min(30vh, 240px) !important;
+  }
+
+  .stApp:has(.report-workspace) .report-primary-value {
+    font-size: 1.65rem !important;
+  }
+
+  .stApp:has(.report-workspace) .report-footer {
+    padding: 0.85rem 0.9rem;
+  }
+}
+
+/* --- AI quota / error presentation (report section only) --- */
+
+.stApp:has(.report-workspace) [data-testid="stVerticalBlockBorderWrapper"]:has(.report-section-ai)
+  [data-testid="stAlert"] {
+  background: rgba(26, 20, 10, 0.92) !important;
+  border: 1px solid #6b5420 !important;
+  border-radius: var(--radius-md) !important;
+  color: #e8dcc0 !important;
+  box-shadow: var(--shadow-elev-1);
+}
+
+.stApp:has(.report-workspace) [data-testid="stVerticalBlockBorderWrapper"]:has(.report-section-ai)
+  [data-testid="stAlert"]
+  p {
+  color: #e8dcc0 !important;
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+
+.stApp:has(.report-workspace) [data-testid="stVerticalBlockBorderWrapper"]:has(.report-section-ai)
+  [data-testid="stCaption"] {
+  color: var(--color-text-kicker) !important;
+  font-size: 0.72rem !important;
+  line-height: 1.4;
+  margin-top: 0.35rem !important;
+}
+
+.stApp:has(.report-workspace) [data-testid="stVerticalBlockBorderWrapper"]:has(.report-section-ai)
+  [data-testid="stVerticalBlockBorderWrapper"] {
+  margin-top: 0.5rem;
+}

@@ -1,0 +1,76 @@
+/* Design tokens — layout marker classes (.opening-workspace, .has-source-image,
+   .report-workspace, .opening-empty) must stay in sync with app.py HTML. */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  --font-sans: 'DM Sans', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  --color-bg-app: #060b12;
+  --color-bg-deep: #040810;
+  --color-bg-mid: #0a1220;
+  --color-surface: #0b1420;
+  --color-surface-raised: #0e1624;
+  --color-surface-inset: #0a121c;
+  --color-surface-panel: #0c1522;
+
+  --color-text-primary: #d8e0ea;
+  --color-text-heading: #eef3f8;
+  --color-text-muted: #9aabbd;
+  --color-text-subtle: #7d8fa3;
+  --color-text-kicker: #6d8094;
+
+  --color-border: #1a2a3d;
+  --color-border-subtle: #152232;
+  --color-border-strong: #243447;
+
+  --color-accent: #7ec8e3;
+  --color-accent-dim: #2a6f8f;
+  --color-accent-glow: rgba(61, 158, 192, 0.35);
+
+  --color-btn-fg: #d7eef7;
+  --color-btn-bg: #0d2836;
+  --color-btn-bg-hover: #143548;
+  --color-btn-border: #2a7a9a;
+  --color-btn-border-hover: #45a8c9;
+
+  --color-success: #7dba9a;
+  --color-warning: #d4b56a;
+  --color-danger: #d98989;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 12px;
+  --radius-btn: 8px;
+  --radius-image: 8px;
+  --radius-pill: 999px;
+
+  --shadow-elev-1: 0 2px 8px rgba(0, 0, 0, 0.28),
+    0 0 0 1px rgba(126, 200, 227, 0.05);
+  --shadow-elev-2: 0 8px 28px rgba(0, 0, 0, 0.38),
+    0 0 0 1px rgba(126, 200, 227, 0.07);
+  --shadow-inset-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+
+  --layout-max-width: 1360px;
+
+  --bg-app-gradient: radial-gradient(
+      ellipse 115% 75% at 50% -18%,
+      rgba(42, 111, 143, 0.22),
+      transparent 58%
+    ),
+    radial-gradient(
+      ellipse 70% 45% at 100% 0%,
+      rgba(61, 158, 192, 0.1),
+      transparent 50%
+    ),
+    linear-gradient(
+      180deg,
+      var(--color-bg-mid) 0%,
+      var(--color-bg-app) 40%,
+      var(--color-bg-deep) 100%
+    );
+}

@@ -97,6 +97,7 @@ The application is organized into separate modules for detection, analysis, visu
 ```text
 app.py                      Streamlit UI
 main.py                     CLI pipeline
+ui/                         Dashboard theme CSS and HTML fragments
 best.pt                     trained YOLOv8 weights (Git LFS)
 requirements.txt
 assets/
